@@ -1,0 +1,1 @@
+start C:\PROGRA~2\INNOSE~1\Compil32.exe /cc main.iss
