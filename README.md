@@ -1,6 +1,6 @@
 # Bruno Suite: Clicker & Link Generator
 
-Набор инструментов для автоматизации работы с API-клиентом **Bruno**. 
+Набор инструментов для автоматизации работы с API-клиентом **[Bruno](https://www.usebruno.com/)**. 
 Позволяет генерировать уникальные ссылки на запросы и автоматически открывать их в приложении Bruno через кастомный протокол `brunogs://`.
 
 ---
@@ -45,6 +45,11 @@
    ```
 После сборки в папке dist/ появятся две директории. Для корректной работы инсталятора рекомендуется объединить их содержимое в общую папку dist/BrunoSuite.
 
+3. Сборка Suite (Clicker+Generator):
+   ```bash
+   pyinstaller build.spec --noconfirm
+   ``` 
+
 ## 3. Сборка инсталятора (Inno Setup)
 
 Для создания установочного пакета используется Inno Setup 6.0.2.
@@ -66,3 +71,13 @@
 Нажмите правой кнопкой мыши на любой файл запроса Bruno (.yml).
 Выберите "Копировать Bruno-ссылку".
 Передайте ссылку коллеге или используйте её в документации. При клике на неё автоматически откроется Bruno на нужном запросе.
+
+## 5. Инструменты
+**[Bruno](https://www.usebruno.com/)**
+**[Visual studio code](https://code.visualstudio.com/)**
+**[Python 3.13](https://www.python.org/downloads/release/python-3130/)**
+**[InnoSetup](https://jrsoftware.org/isinfo.php)**
+---
+## 6. Благодарности
+**[Gemini](https://gemini.google.com)**
+**[Deepseek](https://chat.deepseek.com)**
