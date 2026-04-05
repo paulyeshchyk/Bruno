@@ -1,84 +1,86 @@
 # Bruno Suite: Clicker & Link Generator
 
-Набор инструментов для автоматизации работы с API-клиентом **[Bruno](https://www.usebruno.com/)**. 
-Позволяет генерировать уникальные ссылки на запросы и автоматически открывать их в приложении Bruno через кастомный протокол `brunogs://`.
+A toolset for automating workflows with the **[Bruno](https://www.usebruno.com/)** API client. 
+It allows you to generate unique request links and automatically open them in the Bruno app using a custom `brunogs://` protocol.
 
 ---
 
-## 1. Описание компонентов
+## 1. Component Description
 
 ### Bruno Clicker (`bruno_clicker.py`)
-Основной агент автоматизации.
-- **Назначение**: Принимает URI-ссылку (протокол `brunogs://`), запускает Bruno в режиме отладки (CDP), подключается к нему через Playwright и автоматически находит/открывает нужный запрос в коллекции.
-- **Технологии**: Python, Playwright (Chromium), Win Registry.
-- **Особенности**: Работает в фоновом режиме, автоматически управляет процессами Bruno.
+The core automation agent.
+- **Purpose**: Receives a URI link (`brunogs://` protocol), launches Bruno in debug mode (CDP), connects via Playwright, and automatically finds/opens the specified request in the collection.
+- **Technologies**: Python, Playwright (Chromium), Windows Registry.
+- **Features**: Runs in the background and automatically manages Bruno processes.
 
 ### Bruno Generator (`bruno_generator.py`)
-Инструмент для создания ссылок.
-- **Назначение**: Интегрируется в контекстное меню Windows для файлов `.yml` (запросы Bruno). При нажатии формирует валидную ссылку вида `brunogs://Main%20Collection?path=...` и копирует её в буфер обмена.
-- **Особенности**: Автоматически кодирует спецсимволы (URL Encoding) для обеспечения валидности пути.
+The link creation tool.
+- **Purpose**: Integrates into the Windows context menu for `.yml` files (Bruno requests). When triggered, it generates a valid link like `brunogs://Main%20Collection?path=...` and copies it to the clipboard.
+- **Features**: Automatically encodes special characters (URL Encoding) to ensure path validity.
 
 ---
 
-## 2. Сборка исполняемых файлов (Python)
+## 2. Executable Build (Python)
 
-Для компиляции скриптов в автономные `.exe` файлы используется **PyInstaller**. Используется режим `--onedir`, чтобы избежать проблем с путями к браузеру Playwright.
+**PyInstaller** is used to compile the scripts into standalone `.exe` files. The `--onedir` mode is used to avoid issues with Playwright browser paths.
 
-### Предварительные условия
-1. Установленный **Python 3.10+**.
-2. Установленные зависимости:
+### Prerequisites
+1. **Python 3.10+** installed.
+2. Dependencies installed:
    ```bash
    pip install playwright pyperclip
    playwright install chromium
    ```
+### Build Commands
+Run the following commands in your terminal from the project folder:
 
-### Команда сборки
-Запустите следующие команды в терминале из папки проекта:
-1. Сборка Clicker:
-   ```bash
-   pyinstaller --noconfirm --onedir --windowed --name "bruno_clicker" "bruno_clicker.py"
-   ```
+1. Build Clicker:
+```
+pyinstaller --noconfirm --onedir --windowed --name "bruno_clicker" "bruno_clicker.py"
+```
 
-2. Сборка Generator:
-   ```bash
-   pyinstaller --noconfirm --onedir --windowed --name "bruno_clicker" "bruno_clicker.py"
-   ```
-После сборки в папке dist/ появятся две директории. Для корректной работы инсталятора рекомендуется объединить их содержимое в общую папку dist/BrunoSuite.
+2. Build Generator:
+```
+pyinstaller --noconfirm --onedir --windowed --name "bruno_generator" "bruno_generator.py"
+```
+After building, two directories will appear in the dist/ folder. For the installer to work correctly, it is recommended to merge their contents into a single folder: dist/BrunoSuite.
 
-3. Сборка Suite (Clicker+Generator):
-   ```bash
-   pyinstaller build.spec --noconfirm
-   ``` 
+3. Build Suite (via .spec file):
+```
+pyinstaller build.spec --noconfirm
+```
 
-## 3. Сборка инсталятора (Inno Setup)
+## 3. Installer Build (Inno Setup)
+Inno Setup 6.0.2 is used to create the installation package.
 
-Для создания установочного пакета используется Inno Setup 6.0.2.
+Build Steps:
+Open the .iss setup script in the Inno Setup Compiler.
 
-### Шаги сборки:
-Откройте файл скрипта установки .iss в Inno Setup Compiler.
+Ensure the [Files] section points to the correct path of the compiled Python files (dist/BrunoSuite directory).
 
-Убедитесь, что в секции [Files] указан правильный путь к собранным файлам Python (директория dist/BrunoSuite).
+Click Build -> Compile (or press Ctrl + F9).
 
-Нажмите Build -> Compile (или Ctrl + F9).
+What the Installer Does:
+* *Auto-detection*: Automatically finds the installed Bruno.exe in the system (via Registry or standard paths).
+* *Protocol Registration*: Registers the brunogs:// handler in the Registry, linking it to bruno_clicker.exe.
+* *Shell Integration*: Adds "Copy Bruno Link" to the context menu for .yml files.
 
-### Что делает инсталятор:
-*Автопоиск*: Автоматически находит установленный Bruno.exe в системе (через реестр или стандартные пути).
-*Регистрация протокола*: Прописывает в реестре обработчик brunogs://, связывая его с bruno_clicker.exe.
-*Интеграция в Shell*: Добавляет пункт "Копировать Bruno-ссылку" в контекстное меню файлов .yml.
-*Maintenance Mode*: При повторном запуске предлагает обновить или полностью удалить программу.
+Maintenance Mode: Detects existing installations and offers to update or fully uninstall the program.
 
-## 4. Использование
-Нажмите правой кнопкой мыши на любой файл запроса Bruno (.yml).
-Выберите "Копировать Bruno-ссылку".
-Передайте ссылку коллеге или используйте её в документации. При клике на неё автоматически откроется Bruno на нужном запросе.
+## 4. Usage
+Right-click any Bruno request file (.yml).
 
-## 5. Инструменты
+Select "Copy Bruno Link".
+
+Share the link with a colleague or use it in your documentation. Clicking the link will automatically open Bruno at the specific request.
+
+## 5. Tools Used
 * **[Bruno](https://www.usebruno.com/)**
 * **[Visual studio code](https://code.visualstudio.com/)**
 * **[Python 3.13](https://www.python.org/downloads/release/python-3130/)**
 * **[InnoSetup](https://jrsoftware.org/isinfo.php)**
 ---
-## 6. Благодарности
+## 6. Acknowledgments
 * **[Gemini](https://gemini.google.com)**
 * **[Deepseek](https://chat.deepseek.com)**
 * **[Markdown live preview](https://markdownlivepreview.com/)**
