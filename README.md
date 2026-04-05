@@ -73,11 +73,12 @@
 Передайте ссылку коллеге или используйте её в документации. При клике на неё автоматически откроется Bruno на нужном запросе.
 
 ## 5. Инструменты
-**[Bruno](https://www.usebruno.com/)**
-**[Visual studio code](https://code.visualstudio.com/)**
-**[Python 3.13](https://www.python.org/downloads/release/python-3130/)**
-**[InnoSetup](https://jrsoftware.org/isinfo.php)**
+* **[Bruno](https://www.usebruno.com/)**
+* **[Visual studio code](https://code.visualstudio.com/)**
+* **[Python 3.13](https://www.python.org/downloads/release/python-3130/)**
+* **[InnoSetup](https://jrsoftware.org/isinfo.php)**
 ---
 ## 6. Благодарности
-**[Gemini](https://gemini.google.com)**
-**[Deepseek](https://chat.deepseek.com)**
+* **[Gemini](https://gemini.google.com)**
+* **[Deepseek](https://chat.deepseek.com)**
+* **[Markdown live preview](https://markdownlivepreview.com/)**
